@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Data Visualizer</title>
+</head>
+<body>
+    <div class="content">
+        {% for message in get_flashed_messages() %}
+            <div class="alert">{{ message }}</div>
+        {% endfor %}
+
+        {% block content %}
+            <h1>Stock Data Visualizer</h1>
+            <p>Enter the following information to search for stock data.</p>
+            <form method="POST" action="{{ url_for('index')}}">
+                <label for="symbol">Choose stock symbol:</label>
+                <select id="symbol" name="symbol">
+                    {% for symbol in symbols %}
+                        <option value="{{ symbol }}">{{ symbol }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+                <label for="chart_type">Choose chart type:</label>
+                <select id="chart_type" name="chart_type">
+                    <option value="bar">Bar Chart</option>
+                    <option value="line">Line Chart</option>
+                </select>
+                <br><br>
+                <label for="time_series">Choose time series:</label>
+                <select id="time_series" name="time_series">
+                    <option value="intraday">Intraday</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+                <br><br>
+                <label for="start_date">Choose start date:</label>
+                <input type="date" name="start_date">
+                <br><br>
+                <label for="end_date">Choose end date:</label>
+                <input type="date" name="end_date">
+                <br><br>
+                <input type="submit" value="Submit">
+            </form>
+            <br><br>
+            {% if chart %}
+                <div id="chart">
+                    <embed type="image/svg+xml" src= {{ chart|safe }} />
+                </div>
+            {% endif %}
+        {% endblock %}
+    </div>
+</body>
+</html>
